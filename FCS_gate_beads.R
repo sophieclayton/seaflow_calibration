@@ -44,8 +44,11 @@ for (file in file.list) {
 ###############
 ## read FCS ###
 ###############
+fcs <- NULL
 
 fcs <- read.FCS(file, transformation=T, emptyValue=F)
+opp <- NULL
+
 opp <- tab2df(exprs(fcs))
 opp$pop <- 0
 
@@ -66,22 +69,7 @@ opp[row.names(beads),'pop'] <- "beads"
 
 # print("Gating Synecho")
 # if(draw.gate) poly.syn <- getpoly(quiet=TRUE)
-# syn <- subset(x,inout(x[,c("X692.40.small.stuff","X580.30")],poly=poly.syn, bound=TRUE, quiet=TRUE))
-# opp[row.names(syn),'pop'] <- "synecho"
-#
 
-###################
-### SAVE PLOT ###
-###################
-png(paste0(file,".png"),width=9, height=12, unit='in', res=100)
-
-par(mfrow=c(2,2))
-plot.vct.cytogram(opp, "FSC.small.stuff","X692.40.small.stuff")
-plot.vct.cytogram(opp, "FSC.small.stuff","X580.30")
-plot.vct.cytogram(opp, "X692.40.small.stuff","X580.30")
-plot.vct.cytogram(opp, "SSC","X692.40.small.stuff")
-
-dev.off()
 
 ###############
 ### SUMMARY ###
@@ -112,21 +100,4 @@ summary.table <- rbind(summary.table, table)
 
 }
 
-write.csv(summary.table,file=paste(savepath,"/summary.csv", sep=""), row.names=FALSE)
-
-
-
-
-
-
-
-
-# beads <- subset(summary.table, i == 'beads')
-# culture <- subset(summary.table, i == 'picoeuk')
-
-# par(mar=c(4,20,2,2))
-# barplot(culture$fsc/beads$fsc,horiz=T,names.arg=culture$file,las=1)
-# mtext("Normalized Light scattering to 2 µm beads", 1, line =3)
-
-
-# culture$abundance
+#write.csv(summary.table,file=paste(savepath,"/summary.csv", sep=""), row.names=FALSE
